@@ -1,0 +1,3 @@
+DateTime,Price,Discount_Rate,Coupon_Discount
+290518 2010PM,SGD155.00,-38%,nil
+020618 2008PM,SGD139.00,-44%,nil

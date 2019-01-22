@@ -1,0 +1,4 @@
+*.ini
+*.bat
+*.db
+**__pycache__**
