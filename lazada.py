@@ -24,11 +24,12 @@ def obtain_pricing(html):
     :return: This function does not return anything
     :rtype: None
     """
-    with open("monitor_pricing.txt") as f:
-        # the latest values will always be the last line in the file
-        current_values = f.readlines()[-1].strip().split(",")
-        recorded_price = current_values[1]
-        current_coupon = current_values[-1]
+    # .txt file to monitor pricing is deprecated
+    # with open("monitor_pricing.txt") as f:
+    #     # the latest values will always be the last line in the file
+    #     current_values = f.readlines()[-1].strip().split(",")
+    #     recorded_price = current_values[1]
+    #     current_coupon = current_values[-1]
 
     html_page = requests.get(html)
     data = html_page.text
@@ -46,20 +47,23 @@ def obtain_pricing(html):
     coupon = soup.find("span", class_="tag-name")
     latest_coupon = "nil"
 
-    if coupon is not None:
-        regex_search = re.search(r"SGD\d+.\d{2}|SGD\d+", coupon.text)
-        latest_coupon = regex_search.group(0)
+    print(price_tag.text)
 
-    # remove the SGD from the prices and convert to float for comparison
-    if float(latest_price[3:]) < float(recorded_price[3:]) or latest_coupon != current_coupon:
-        # date/time from POSIX timestamp
-        date = datetime.datetime.now().strftime("%d%m%y %H%M%p")
+    # code below is deprecated. to update with database
+    # if coupon is not None:
+    #     regex_search = re.search(r"SGD\d+.\d{2}|SGD\d+", coupon.text)
+    #     latest_coupon = regex_search.group(0)
 
-        with open(r"C:\Users\Lee\Desktop\python_projects\lazada_pricing\monitor_pricing.txt", "a") as f:
-            write_string = ",".join([date, latest_price, latest_disc_rate, latest_coupon])
-            f.write(write_string + "\n")
+    # # remove the SGD from the prices and convert to float for comparison
+    # if float(latest_price[3:]) < float(recorded_price[3:]) or latest_coupon != current_coupon:
+    #     # date/time from POSIX timestamp
+    #     date = datetime.datetime.now().strftime("%d%m%y %H%M%p")
 
-        send_email("New Price: {} | Coupon: {}".format(latest_price, latest_coupon))
+    #     with open(r"C:\Users\Lee\Desktop\python_projects\lazada_pricing\monitor_pricing.txt", "a") as f:
+    #         write_string = ",".join([date, latest_price, latest_disc_rate, latest_coupon])
+    #         f.write(write_string + "\n")
+
+    #     send_email("New Price: {} | Coupon: {}".format(latest_price, latest_coupon))
 
         # notification is unnecessary since output can be shown on command line
         # code kept for academic purposes
@@ -69,9 +73,12 @@ def obtain_pricing(html):
 jaybird_html = "https://www.lazada.sg/products/jaybird-x3-wireless-in-ear-" \
                "headphones-blackout-i123853561-s137543873.html?spm=a2o42.searchlist.list.19.30745c60CD5bnP&search=1"
 
+url = "https://www.lazada.sg/products/goodgreat-bluetooth-headphones-over-ear-wireless-stereo-foldable-headphones-wireless-and-wired-headsets-with-built-in-mic-micro-sdtf-fm-"\
+        "for-iphonesamsungipadpcblack-i268895936-s417628372.html?spm=a2o42.home.flashSale.2.545f46b5DS7JaX&search=1&mp=1"
+
 if __name__ == "__main__":
     try:
-        obtain_pricing(jaybird_html)
+        obtain_pricing(url)
 
     except Exception as e:
         # catch any other errors that might occur for debugging
