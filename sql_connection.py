@@ -61,7 +61,7 @@ class ConnectionManager:
         """
 
         sql_stmt = """ REPLACE INTO url_table(item_name, url, price, coupon)
-                        VALUES(?, ?, ?, ?);               
+                        VALUES(?, ?, ?, ?);
                     """
 
         try:
@@ -85,7 +85,7 @@ class ConnectionManager:
         :return: The status of the creation
         """
 
-        sql_stmt = """ DELETE FROM url_table WHERE item_name = :item_name;               
+        sql_stmt = """ DELETE FROM url_table WHERE item_name = :item_name;
                     """
 
         try:
